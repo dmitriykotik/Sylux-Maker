@@ -83,7 +83,16 @@ Count=1
 
             INI cfg = new INI("Config.Make");
 
-            if (args.Length <= 0) args = ["build"];
+            if (args.Length <= 0)
+            {
+                Console.WriteLine(@"  ./Make build - Kernel assembly.
+  ./Make run - Starting the kernel.
+  ./Make clean - Cleaning.
+  ./Make version - Product version.
+  ./Make install_i686 - Installing the necessary packages to build the kernel.
+  ./Make help - Help.");
+                Environment.Exit(0);
+            }
 
             switch (args[0].ToLower())
             {
@@ -128,6 +137,14 @@ Count=1
                         if (!Parser.Execute(cfg, _string)) ProgramStarter.Start(ParserVars.Parse(cfg, _string));
                     }
                     break;
+                case "help":
+                    Console.WriteLine(@"  ./Make build - Kernel assembly.
+  ./Make run - Starting the kernel.
+  ./Make clean - Cleaning.
+  ./Make version - Product version.
+  ./Make install_i686 - Installing the necessary packages to build the kernel.
+  ./Make help - Help.");
+                    break;
                 case "install_i686":
                     ProgramStarter.Start("apt-get update");
                     ProgramStarter.Start("apt-get install unzip");
@@ -139,7 +156,7 @@ Count=1
                     cfg.SetValue("Compiler", "i686-elf-tools", "i686-elf-tools/bin/");
                     break;
                 case "version":
-                    Console.WriteLine(@"Make Sylux v0.1.1.40");
+                    Console.WriteLine(@"Make for Sylux v0.1.1.41");
                     break;
             }
         }
