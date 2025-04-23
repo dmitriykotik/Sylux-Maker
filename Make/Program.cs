@@ -1,4 +1,5 @@
-﻿using MultiAPI;
+﻿using Microsoft.ML.Data;
+using MultiAPI;
 
 namespace Make
 {
@@ -71,7 +72,6 @@ Count=1
             Console.WriteLine(@"         |___/                                            ");
             Console.WriteLine();
 
-
             if (!File.Exists("Config.Make")) 
             {
                 File.WriteAllText(@"Config.Make", cfgDefaultContent);
@@ -100,7 +100,7 @@ Count=1
                     for (int i = 1; i <= int.Parse(cfg.GetValue("Clean", "Count")); i++)
                     {
                         string _string = cfg.GetValue("Clean", i.ToString());
-                        if (string.IsNullOrEmpty(_string)) return;
+                        if (string.IsNullOrEmpty(_string)) continue;
                         if (!Parser.Execute(cfg, _string)) ProgramStarter.Start(ParserVars.Parse(cfg, _string));
                     }
                     break;
@@ -109,7 +109,7 @@ Count=1
                     for (int i = 1; i <= int.Parse(cfg.GetValue("Build", "Count")); i++)
                     {
                         string _string = cfg.GetValue("Build", i.ToString());
-                        if (string.IsNullOrEmpty(_string)) return;
+                        if (string.IsNullOrEmpty(_string)) continue;
                         if (!Parser.Execute(cfg, _string)) ProgramStarter.Start(ParserVars.Parse(cfg, _string));
                     }
                     break;
@@ -118,7 +118,7 @@ Count=1
                     for (int i = 1; i <= int.Parse(cfg.GetValue("Run", "Count")); i++)
                     {
                         string _string = cfg.GetValue("Run", i.ToString());
-                        if (string.IsNullOrEmpty(_string)) return;
+                        if (string.IsNullOrEmpty(_string)) continue;
                         if (!Parser.Execute(cfg, _string)) ProgramStarter.Start(ParserVars.Parse(cfg, _string));
                     }
                     break;
@@ -153,10 +153,10 @@ Count=1
                     ProgramStarter.Start("wget https://github.com/lordmilko/i686-elf-tools/releases/download/13.2.0/i686-elf-tools-linux.zip");
                     ProgramStarter.Start("unzip i686-elf-tools-linux.zip -d i686-elf-tools");
                     ProgramStarter.Start("rm i686-elf-tools-linux.zip");
-                    cfg.SetValue("Compiler", "i686-elf-tools", "i686-elf-tools/bin/");
+                    cfg.SetValue("Compiler", "i686-elf-tools", "i686-elf-tools");
                     break;
                 case "version":
-                    Console.WriteLine(@"Make for Sylux v0.1.1.41");
+                    Console.WriteLine(@"Make for Sylux v0.1.1.61");
                     break;
             }
         }

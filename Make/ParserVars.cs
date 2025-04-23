@@ -10,19 +10,21 @@ namespace Make
 
         internal static string Parse(INI ini, string input)
         {
+            if (string.IsNullOrEmpty(input)) return "";
+
             return varRegex.Replace(input, match =>
-        {
-            var key = match.Groups[1].Value;
-
-            foreach (var section in sectionsPriority)
             {
-                var value = ini.GetValue(section, key);
-                if (!string.IsNullOrEmpty(value))
-                    return value;
-            }
+                var key = match.Groups[1].Value;
 
-            return match.Value;
-        });
+                foreach (var section in sectionsPriority)
+                {
+                    var value = ini.GetValue(section, key);
+                    if (!string.IsNullOrEmpty(value))
+                        return value;
+                }
+
+                return match.Value;
+            });
         }
     }
 }
